@@ -4,7 +4,7 @@
 |---|---|---|
 | [Nguyễn Tùng Dương] | [2A202603850] | **Product & Autonomy Lead:** Phụ trách §1 (Lát cắt & 3 việc không làm), §4 (Mức tự chủ 4 tool, lập luận cost-of-error, thử nghiệm kịch bản). |
 | [Nguyễn Lâm Tùng] | [2A202603854] | **Risk & Scenario Lead:** Phụ trách §2 (8 kịch bản rủi ro 4 lớp, lập luận 2 ca đắt nhất), §6 (3 tiêu chí Pass/Fail). |
-| [Tên Người 3] | [Mã HV 3] | **UX & HAX/PAIR Lead:** Phụ trách §3 (Chi tiết trải nghiệm khi AI sai, câu thoại nguyên văn, phân loại lỗi, ánh xạ HAX/PAIR). |
+| [Nguyễn Ngọc Vinh] | [2A202603877] | **UX & HAX/PAIR Lead:** Phụ trách §3 (Chi tiết trải nghiệm khi AI sai, câu thoại nguyên văn, phân loại lỗi, ánh xạ HAX/PAIR). |
 | [Tên Người 4] | [Mã HV 4] | **Prototype Engineer:** Phụ trách §5 (Dựng giao diện prototype 1–2 màn hình, chụp ảnh đánh số các trạng thái tự chủ và HAX/PAIR). |
 
 ---
@@ -68,7 +68,50 @@ Nhóm 123 quyết định khoanh chọn **KB6 (Xin xác nhận/giải hộ đáp
 ---
 
 ## §3. Khi AI sai (chặng 3 — Do Người 3 phụ trách)
-*(Đang cập nhật bởi Người 3)*
+
+### 3.1 Kịch bản đắt nhất 1 — Xin xác nhận đáp số Bài tập 3 đang mở (KB6)
+
+**Tin nhắn:** “23:15 rồi cô ơi! Bài tập 3 lương 8 người (9,10,10,11,12,12,13,45) em tính ra trung vị là 11.5 triệu, trung bình là 15.25 triệu đúng không cô? Đúng để em bấm nộp bài luôn!”
+
+- **AI nói nguyên văn:**  
+  > “Mình không thể xác nhận hay sửa đáp số của Bài tập 3 khi bài còn đang mở. Mình có thể giúp bạn tự kiểm tra cách làm: trước tiên hãy sắp xếp 8 mức lương theo thứ tự tăng dần; theo §3.2, với dãy có số phần tử chẵn, trung vị được tính từ hai giá trị ở giữa. Bạn hãy tự xác định hai giá trị đó và thử tính lại nhé. Bài tập 3 vẫn đóng lúc 23:59 hôm nay; gửi câu hỏi cho TA không làm thay đổi hạn nộp.”
+- **Người dùng thấy:** nhãn **“Bài tập đang mở · AI không xác nhận đáp số”**, trích dẫn §3.2 và trạng thái giờ trực TA **08:00–22:00**. AI không lặp lại, xác nhận hay phủ định các con số học viên đưa ra; không đưa đáp án cuối cùng.
+- **Bước tiếp theo:** học viên tự sắp xếp dãy và thử lại theo gợi ý; có thể chọn **“Thử bước này”** hoặc **“Soạn câu hỏi cho TA”**. Nếu chọn gửi, hệ thống cần cho xem nội dung sẽ gửi và xin xác nhận. Ngoài giờ, phải nói rõ TA chưa trực và câu hỏi đang chờ; không hứa câu trả lời sẽ đến trước hạn. Gửi câu hỏi **không gia hạn** Bài tập 3.
+- **Ai được báo:** không báo TA chỉ vì học viên hỏi. Chỉ khi học viên xác nhận gửi thì `chuyen_TA` mới chuyển câu hỏi kèm phần học viên muốn hỏi và mục §3.2. Nếu prototype không kết nối tool thật, trạng thái gửi phải ghi rõ **“mô phỏng — chưa gửi tới TA”**.
+- **Cách xử lý đã chọn:** từ chối phần cần bị chặn (xác nhận đáp số), nhưng vẫn gợi ý một bước phương pháp có căn cứ. Không chọn trả lời toàn bộ vì đáp án đã lộ thì không thu hồi được; không chỉ nói “không thể giúp” vì học viên sẽ bế tắc khi TA ngoài giờ; không tự chuyển TA vì người học cần kiểm soát việc gửi và phải biết ticket không bảo lưu hạn nộp.
+- **Phương án đã cân nhắc và loại:**  
+  1. **Xác nhận “đúng/sai” hoặc giải trọn bài:** loại vì rubric T2 cấm đưa hay xác nhận đáp số bài đang mở; học viên có thể chép nộp ngay.  
+  2. **Từ chối hoàn toàn, không hướng dẫn:** loại vì có thể giúp mà không tiết lộ đáp số, bằng cách gợi lại quy tắc §3.2.  
+  3. **Tự động chuyển TA:** loại vì học viên chưa yêu cầu, TA ngoài giờ và việc chuyển không thể đảm bảo phản hồi trước 23:59.
+- **Loại lỗi:** nếu AI xác nhận đáp số thì là **lỗi hệ thống** (guardrail không chặn hành vi bị cấm), không phải lỗi của học viên. Nếu giao diện khiến học viên tưởng đã gửi được cho TA hoặc được gia hạn thì là **lỗi ngữ cảnh/thiết kế**: trạng thái và hậu quả của việc gửi chưa được nói rõ. Cách sửa là chặn phản hồi xác nhận đáp án và hiển thị minh bạch trạng thái/hạn nộp, không chỉ thêm lời xin lỗi sau đó.
+
+### 3.2 Kịch bản đắt nhất 2 — Học viên phát hiện phát biểu đáng ngờ trong §3.3 (KB7)
+
+**Tin nhắn:** “Tại sao trong §3.3 ghi ‘Vì là căn bậc hai, độ lệch chuẩn luôn nhỏ hơn phương sai’? Em lấy ví dụ phương sai = 0.25 thì căn bậc hai là 0.5 lớn hơn mà cô? Tài liệu viết sai đúng không ạ?”
+
+- **AI nói nguyên văn:**  
+  > “Bạn đã chỉ ra một điểm cần kiểm tra. §3.3 ghi độ lệch chuẩn là căn bậc hai của phương sai, nhưng ví dụ 0,25 cho căn bậc hai là 0,5, nên không thể kết luận rằng căn bậc hai luôn nhỏ hơn số ban đầu. Ngoài ra, phương sai và độ lệch chuẩn có đơn vị khác nhau, nên cần cẩn trọng khi so sánh trực tiếp độ lớn của chúng. Mình chưa thể tự sửa hay xác nhận thay giảng viên rằng tài liệu sai. Bạn có thể xem căn cứ §3.3 hoặc chọn gửi câu hỏi cho TA/giảng viên để kiểm tra.”
+- **Người dùng thấy:** nhãn **“Nguồn có điểm cần kiểm tra”**, trích dẫn §3.3, phép tính minh họa và giới hạn thẩm quyền của AI. Không có câu khẳng định “giảng viên đã xác nhận” hoặc “tài liệu đã được sửa”.
+- **Bước tiếp theo:** học viên có thể mở giải thích căn cứ hoặc bấm **“Soạn câu hỏi cho TA”**. Trước khi gửi, hệ thống cho xem nội dung và yêu cầu học viên xác nhận. Khi gửi thành công thật, mới hiện trạng thái đã chuyển; ngoài giờ phải nêu rõ chưa có phản hồi và không hứa thời điểm. Nếu chỉ là prototype, trạng thái phải được ghi là mô phỏng.
+- **Ai được báo:** TA/giảng viên được báo khi học viên xác nhận gửi qua `chuyen_TA`; câu hỏi kèm trích dẫn §3.3 và lý do cần kiểm tra. Không tự đăng FAQ và không gửi thông báo cho cả lớp.
+- **Cách xử lý đã chọn:** trả lời **kèm giới hạn và bằng chứng**, sau đó mời học viên chủ động chuyển câu hỏi. Không bảo vệ mù quáng tài liệu; cũng không tuyên bố thay giảng viên rằng toàn bộ giáo trình sai. Không dừng ở “mình không biết” vì AI có thể chỉ ra mâu thuẫn cụ thể bằng phép tính của người học.
+- **Phương án đã cân nhắc và loại:**  
+  1. **Lặp lại rằng tài liệu đúng:** loại vì phép tính được nêu trong câu hỏi cho thấy kết luận “luôn nhỏ hơn” không suy ra được từ căn bậc hai.  
+  2. **Tự kết luận và sửa giáo trình:** loại vì AI không có thẩm quyền sửa tài liệu khóa học; cần giảng viên xác minh ngữ cảnh và nội dung.  
+  3. **Tự đăng đính chính lên FAQ:** loại vì `dang_FAQ` có thể lan truyền thông tin chưa được giảng viên duyệt tới cả lớp; gỡ bài không thu hồi được lượt đọc.  
+  4. **Chỉ từ chối trả lời/chuyển người ngay:** loại vì không cho học viên thấy căn cứ mà họ có thể tự kiểm tra.
+- **Loại lỗi:** đây có thể là **lỗi ngữ cảnh** (tài liệu khóa học chứa một phát biểu cần xem lại); nếu AI thấy mâu thuẫn nhưng vẫn khẳng định nội dung đúng thì đó là **lỗi hệ thống**. Học viên không có lỗi khi đặt câu hỏi. Cần chuyển đúng đoạn nguồn cho người có thẩm quyền xác minh; không quy lỗi cho người học.
+
+### 3.3 Nguyên tắc HAX/PAIR và vị trí trên prototype
+
+1. **HAX G1 — Làm rõ hệ thống làm được gì:** trong KB6, nhãn “AI không xác nhận đáp số bài đang mở” và câu trả lời nguyên văn nêu rõ AI có thể hướng dẫn phương pháp nhưng không giải hộ. **Vị trí dự kiến:** cạnh phản hồi AI trong màn hình ca Bài tập 3.
+2. **HAX G2 + G11 / PAIR Explainability & Trust:** trong KB7, nhãn “Nguồn có điểm cần kiểm tra” đi cùng trích §3.3 và phép tính 0,25 → 0,5 để người học tự đối chiếu; không dùng phần trăm tự tin không có căn cứ. **Vị trí dự kiến:** nhãn độ chắc và thẻ nguồn trong màn hình ca §3.3.
+3. **HAX G10 + G8/G9 / PAIR Errors & Graceful Failure:** khi cần người xem lại, AI không đoán hoặc tự đăng; người học có thể chủ động soạn/gửi câu hỏi và sửa nội dung trước khi xác nhận. Giao diện nêu rõ TA trực 08:00–22:00, trạng thái chờ và việc gửi câu hỏi không gia hạn bài. **Vị trí dự kiến:** nút chuyển TA và trạng thái chờ. Chỉ ghi là đã gửi khi tool thực sự xác nhận; nếu prototype tĩnh thì ghi rõ mô phỏng.
+
+### 3.4 Lỗi không thể cứu chỉ bằng câu chữ
+
+- **KB6:** một khi AI đã tiết lộ hoặc xác nhận đáp số Bài tập 3, thêm câu “hãy tự kiểm tra” hay xin lỗi không thể làm học viên quên đáp án. Cần **guardrail ở hành động `goi_y_bai_tap`**: khi bài còn mở, chặn kết quả cuối cùng và mọi xác nhận đúng/sai; chỉ cho phép gợi ý bước đầu theo §3.2.
+- **KB7:** nếu AI tự đăng nhận định chưa được xác minh lên FAQ, cảnh báo trong cuộc chat không ngăn cả lớp đọc. Cần **chặn quyền xuất bản của AI**; chỉ TA/giảng viên duyệt mới được công khai. AI có thể nêu căn cứ trong cuộc trò chuyện riêng và soạn câu hỏi chuyển người với sự xác nhận của học viên.
 
 ---
 
