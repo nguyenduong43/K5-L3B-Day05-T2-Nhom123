@@ -1,510 +1,1123 @@
 <!doctype html>
 <html lang="vi">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Prototype mẫu · T3 Du lịch · một ca ở ba mức tự chủ</title>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#f3f5f4" />
+    <title>Trợ lý học bài · Ca tối</title>
     <style>
-        :root {
-            --ink: #1d2321;
-            --mut: #6b6f6c;
-            --line: #dcd8cf;
-            --bg: #f6f4ef;
-            --card: #fff;
-            --g: #2e6a4f;
-            --gb: #e5f1ea;
-            --a: #8a6516;
-            --ab: #fbefd3;
-            --r: #a33b2b;
-            --rb: #f8e3df;
-            --b: #28507a;
-            --bb: #e3ecf6
+      :root {
+        font-family:
+          Inter,
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          sans-serif;
+        color: #19332e;
+        background: #f3f6f4;
+        font-synthesis: none;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+      }
+      button {
+        font: inherit;
+        cursor: pointer;
+      }
+      .top {
+        height: 70px;
+        background: #fff;
+        border-bottom: 1px solid #e6ece8;
+        padding: 0 max(calc((100% - 1320px) / 2), 28px);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .brand {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+      .logo {
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+        background: #e6f1eb;
+        color: #39735c;
+        display: grid;
+        place-items: center;
+        font-size: 20px;
+      }
+      .brand small,
+      .eyebrow {
+        display: block;
+        color: #7b8b83;
+        font-size: 9px;
+        font-weight: 800;
+        letter-spacing: 0.13em;
+      }
+      .brand b {
+        display: block;
+        margin-top: 3px;
+        font-size: 16px;
+      }
+      .topright {
+        font-size: 11px;
+        color: #576d62;
+      }
+      .green-dot {
+        display: inline-block;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #46a579;
+        margin-right: 7px;
+      }
+      .intro {
+        max-width: 1320px;
+        margin: auto;
+        padding: 30px 28px 20px;
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 20px;
+      }
+      .intro h1 {
+        font-size: 26px;
+        letter-spacing: -0.04em;
+        margin: 7px 0;
+      }
+      .intro p {
+        font-size: 12px;
+        color: #73827a;
+        margin: 0;
+      }
+      .check-label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 11px;
+        font-weight: 650;
+        cursor: pointer;
+      }
+      .check-label input {
+        accent-color: #347560;
+      }
+      .layout {
+        max-width: 1320px;
+        margin: auto;
+        padding: 0 28px 40px;
+        display: grid;
+        grid-template-columns: minmax(0, 1.55fr) minmax(330px, 1fr);
+        gap: 20px;
+        align-items: start;
+      }
+      .left {
+        display: grid;
+        gap: 12px;
+      }
+      .card,
+      .side {
+        background: #fff;
+        border: 1px solid #e2eae5;
+        border-radius: 14px;
+        box-shadow: 0 5px 18px #153a2a0b;
+      }
+      .course {
+        padding: 16px 18px;
+        position: relative;
+      }
+      .course-title {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .course-icon {
+        height: 36px;
+        width: 36px;
+        display: grid;
+        place-items: center;
+        background: #edf5f0;
+        border-radius: 10px;
+        color: #408064;
+      }
+      .course h2 {
+        font-size: 13px;
+        margin: 0 0 4px;
+      }
+      .course p {
+        font-size: 10px;
+        color: #7c8982;
+        margin: 0;
+      }
+      .course-footer {
+        border-top: 1px solid #edf1ee;
+        margin-top: 13px;
+        padding-top: 10px;
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        font-size: 10px;
+        color: #708078;
+      }
+      .marker {
+        display: inline-grid;
+        place-items: center;
+        flex: none;
+        width: 21px;
+        height: 21px;
+        border-radius: 50%;
+        background: #e9aa4c;
+        color: #39280d;
+        font-size: 11px;
+        font-weight: 850;
+        box-shadow: 0 2px 5px #58391320;
+      }
+      .marker.pin {
+        position: absolute;
+        top: 12px;
+        left: -10px;
+      }
+      .assignment {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 13px;
+        border-radius: 10px;
+        background: #fff9ed;
+        border: 1px solid #f1e4c9;
+        font-size: 11px;
+      }
+      .assignment .clock {
+        font-size: 17px;
+        color: #a77a35;
+      }
+      .assignment small {
+        display: block;
+        color: #8d8778;
+        font-size: 9px;
+        margin-top: 3px;
+      }
+      .assignment b {
+        flex: 1;
+      }
+      .open {
+        font-size: 8px;
+        letter-spacing: 0.08em;
+        color: #a16f29;
+        background: #f9efd9;
+        border-radius: 5px;
+        padding: 5px 8px;
+        font-weight: 800;
+      }
+      .chat {
+        overflow: hidden;
+      }
+      .chat-head {
+        padding: 12px 16px;
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid #edf0ee;
+      }
+      .identity {
+        display: flex;
+        gap: 9px;
+        align-items: center;
+      }
+      .avatar {
+        background: #eaf3ee;
+        color: #39745c;
+        border-radius: 10px;
+        width: 32px;
+        height: 32px;
+        display: grid;
+        place-items: center;
+      }
+      .identity b {
+        display: block;
+        font-size: 11px;
+      }
+      .identity small {
+        display: block;
+        color: #849189;
+        font-size: 9px;
+        margin-top: 3px;
+      }
+      .scenario {
+        padding: 12px 16px;
+        background: #fbfcfb;
+        border-bottom: 1px solid #edf0ee;
+      }
+      .scenario-buttons {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-top: 8px;
+      }
+      .scenario button {
+        border: 1px solid #e2e9e4;
+        border-radius: 8px;
+        background: white;
+        text-align: left;
+        padding: 9px;
+        color: #64746b;
+        font-size: 10px;
+      }
+      .scenario button.active {
+        border-color: #72a18b;
+        background: #eff7f2;
+        color: #2a5e49;
+      }
+      .scenario button span {
+        color: #9aa79f;
+        font-size: 8px;
+        font-weight: 800;
+        margin-right: 7px;
+      }
+      .transcript {
+        padding: 14px 16px;
+      }
+      .time {
+        text-align: center;
+        color: #9da9a2;
+        font-weight: 750;
+        font-size: 8px;
+        letter-spacing: 0.12em;
+        margin: 2px 0 14px;
+      }
+      .user {
+        margin-left: auto;
+        max-width: 82%;
+        background: #eef4f0;
+        border-radius: 11px 11px 3px 11px;
+        padding: 10px 12px;
+        font-size: 11px;
+        line-height: 1.65;
+        color: #345347;
+      }
+      .user-label {
+        text-align: right;
+        font-size: 8px;
+        color: #8b9990;
+        margin: 0 2px 5px;
+      }
+      .ai {
+        margin-top: 15px;
+        border: 1px solid #e9eeeb;
+        border-radius: 10px;
+        padding: 13px;
+      }
+      .ai-label {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        font-size: 9px;
+        font-weight: 800;
+        flex-wrap: wrap;
+      }
+      .badge {
+        background: #fff4df;
+        color: #946d2e;
+        border-radius: 5px;
+        padding: 5px 7px;
+        font-size: 8px;
+        font-weight: 700;
+      }
+      .answer {
+        font-size: 11px;
+        line-height: 1.7;
+        color: #46584f;
+        margin: 10px 0;
+      }
+      .citation {
+        display: flex;
+        align-items: start;
+        gap: 8px;
+        background: #f5f8f6;
+        border: 1px solid #e8eeea;
+        border-radius: 7px;
+        padding: 9px;
+        color: #5e7067;
+        font-size: 9px;
+        line-height: 1.55;
+      }
+      .citation b {
+        color: #50806b;
+        font-size: 8px;
+        white-space: nowrap;
+      }
+      .actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 11px;
+        flex-wrap: wrap;
+      }
+      .btn {
+        border: 0;
+        border-radius: 7px;
+        padding: 9px 11px;
+        background: #34745e;
+        color: white;
+        font-size: 10px;
+        font-weight: 700;
+      }
+      .btn.secondary {
+        background: white;
+        color: #557163;
+        border: 1px solid #dfe8e2;
+      }
+      .hint,
+      .queued {
+        margin-top: 10px;
+        padding: 10px;
+        background: #eff7f2;
+        border-radius: 8px;
+        font-size: 10px;
+        line-height: 1.6;
+        color: #476357;
+      }
+      .queued {
+        background: #f2f8f2;
+        display: flex;
+        gap: 8px;
+      }
+      .composer {
+        padding: 11px 16px;
+        border-top: 1px solid #edf0ee;
+      }
+      .input {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 1px solid #e3eae5;
+        border-radius: 9px;
+        padding: 6px 7px 6px 11px;
+        color: #91a098;
+        font-size: 10px;
+      }
+      .composer small {
+        display: block;
+        color: #89968e;
+        font-size: 8px;
+        margin-top: 7px;
+      }
+      .side {
+        padding: 17px;
+      }
+      .side-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #edf0ee;
+        padding-bottom: 13px;
+      }
+      .side-head h2 {
+        font-size: 15px;
+        margin: 5px 0 0;
+      }
+      .lab {
+        font-size: 8px;
+        color: #87958c;
+        border: 1px solid #e5ebe7;
+        padding: 6px;
+        border-radius: 5px;
+      }
+      .promise {
+        background: #f0f7f2;
+        border: 1px solid #e2eee5;
+        border-radius: 9px;
+        padding: 12px;
+        margin: 13px 0 18px;
+        font-size: 10px;
+        line-height: 1.65;
+        color: #466052;
+      }
+      .promise b {
+        display: block;
+        font-size: 8px;
+        letter-spacing: 0.12em;
+        color: #819087;
+        margin-bottom: 5px;
+      }
+      .section-title {
+        font-size: 11px;
+        font-weight: 750;
+        display: flex;
+        justify-content: space-between;
+        margin: 14px 0 8px;
+      }
+      .section-title small {
+        font-size: 7px;
+        color: #98a39c;
+        letter-spacing: 0.1em;
+      }
+      .tools {
+        border: 1px solid #e9eeeb;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      .tool {
+        display: flex;
+        gap: 9px;
+        align-items: center;
+        padding: 9px;
+        border-bottom: 1px solid #edf0ee;
+      }
+      .tool:last-child {
+        border: 0;
+      }
+      .toolnum {
+        background: #eaf4ed;
+        color: #4a8061;
+        border-radius: 6px;
+        width: 23px;
+        height: 23px;
+        display: grid;
+        place-items: center;
+        font-size: 8px;
+        font-weight: 850;
+      }
+      .tool:nth-child(2) .toolnum {
+        background: #eaf1f6;
+        color: #4d7894;
+      }
+      .tool:nth-child(3) .toolnum {
+        background: #fbf2df;
+        color: #a07c37;
+      }
+      .tool:nth-child(4) .toolnum {
+        background: #f9eaea;
+        color: #a15f5b;
+      }
+      .tool b {
+        font-family: ui-monospace, monospace;
+        font-size: 9px;
+      }
+      .tool p {
+        font-size: 8px;
+        color: #849189;
+        margin: 4px 0 0;
+        line-height: 1.5;
+      }
+      .rules {
+        display: grid;
+        gap: 10px;
+      }
+      .rule {
+        display: grid;
+        grid-template-columns: 21px minmax(0, 1fr);
+        gap: 8px;
+        align-items: start;
+      }
+      .rule > .marker.hidden + div {
+        grid-column: 1/-1;
+      }
+      .rule b {
+        font-size: 9px;
+      }
+      .rule p {
+        margin: 3px 0 0;
+        font-size: 8px;
+        color: #7c8981;
+        line-height: 1.5;
+      }
+      .queue {
+        border: 1px solid #e7ece9;
+        border-radius: 8px;
+        padding: 10px;
+        margin-top: 15px;
+      }
+      .queue-head {
+        display: flex;
+        justify-content: space-between;
+        font-size: 10px;
+        font-weight: 750;
+      }
+      .queue p {
+        font-size: 8px;
+        line-height: 1.5;
+        color: #86938b;
+        margin: 7px 0;
+      }
+      .queue button {
+        background: none;
+        border: 0;
+        padding: 2px 0;
+        color: #438064;
+        font-size: 9px;
+        font-weight: 700;
+      }
+      .footer {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 14px;
+        font-size: 7px;
+        color: #99a49d;
+        letter-spacing: 0.1em;
+      }
+      .modal-bg {
+        position: fixed;
+        inset: 0;
+        background: #12262280;
+        display: grid;
+        place-items: center;
+        padding: 18px;
+      }
+      .modal {
+        width: min(440px, 100%);
+        background: white;
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 25px 70px #10251e44;
+      }
+      .modal h2 {
+        font-size: 18px;
+        margin: 10px 0;
+      }
+      .modal p {
+        font-size: 11px;
+        line-height: 1.7;
+        color: #6e7d74;
+      }
+      .context {
+        padding: 10px;
+        border: 1px solid #e7ede9;
+        border-radius: 8px;
+        font-size: 10px;
+      }
+      .warning {
+        padding: 10px;
+        background: #fff7e9;
+        border-radius: 8px;
+        color: #85652d;
+        font-size: 9px;
+        line-height: 1.6;
+        margin-top: 10px;
+      }
+      .modal-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+        margin-top: 15px;
+      }
+      .hidden {
+        display: none !important;
+      }
+      button:focus-visible,
+      input:focus-visible {
+        outline: 3px solid #d99a3d;
+        outline-offset: 2px;
+      }
+      @media (max-width: 850px) {
+        .layout {
+          grid-template-columns: 1fr;
         }
-
-        * {
-            box-sizing: border-box
+        .intro {
+          align-items: start;
+          flex-direction: column;
         }
-
-        body {
-            margin: 0;
-            font-family: "Be Vietnam Pro", "Noto Sans", "Segoe UI", Arial, sans-serif;
-            color: var(--ink);
-            background: var(--bg);
-            font-size: 15px;
-            line-height: 1.45
+        .side {
+          order: 2;
         }
-
-        header {
-            padding: 18px 28px 10px;
-            border-bottom: 1px solid var(--line);
-            background: #fff
+      }
+      @media (max-width: 480px) {
+        .top {
+          padding: 0 16px;
         }
-
-        h1 {
-            font-size: 20px;
-            margin: 0 0 4px
+        .topright {
+          font-size: 9px;
         }
-
-        .sub {
-            color: var(--mut);
-            font-size: 13.5px
+        .intro {
+          padding: 22px 16px 16px;
         }
-
-        .toggle {
-            display: flex;
-            gap: 8px;
-            margin: 12px 0 4px;
-            flex-wrap: wrap;
-            align-items: center
+        .intro h1 {
+          font-size: 22px;
         }
-
-        .toggle span {
-            font-size: 13.5px;
-            color: var(--mut);
-            margin-right: 4px
+        .layout {
+          padding: 0 16px 30px;
         }
-
-        .toggle button {
-            border: 1.5px solid var(--line);
-            background: #fff;
-            border-radius: 999px;
-            padding: 7px 14px;
-            font: inherit;
-            font-size: 14px;
-            cursor: pointer
+        .course-footer {
+          flex-direction: column;
         }
-
-        .toggle button.on {
-            border-color: var(--ink);
-            background: var(--ink);
-            color: #fff
+        .scenario-buttons {
+          grid-template-columns: 1fr;
         }
-
-        main {
-            display: grid;
-            grid-template-columns: 400px 1fr;
-            gap: 24px;
-            padding: 20px 28px 28px;
-            max-width: 1280px
+        .user {
+          max-width: 96%;
         }
-
-        .phone {
-            background: #fff;
-            border: 1px solid var(--line);
-            border-radius: 28px;
-            padding: 14px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, .05)
+        .actions .btn {
+          width: 100%;
         }
-
-        .bar {
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            color: var(--mut);
-            padding: 0 6px 8px;
-            border-bottom: 1px solid var(--line)
+      }
+      .input input {
+        flex: 1;
+        min-width: 0;
+        border: 0;
+        outline: 0;
+        background: transparent;
+        color: #345347;
+        font: inherit;
+      }
+      .input input::placeholder {
+        color: #91a098;
+      }
+      .answer {
+        white-space: pre-line;
+      }
+      .step-next {
+        margin-top: 10px;
+      }
+      .step-next .btn {
+        max-width: 100%;
+        white-space: normal;
+        text-align: left;
+      }
+      .step-two {
+        margin-top: 10px;
+        padding-top: 9px;
+        border-top: 1px solid #dce9e0;
+      }
+      .fallback {
+        margin: 12px 0 0 auto;
+        max-width: 90%;
+        display: grid;
+        gap: 7px;
+      }
+      .fallback .user {
+        max-width: 100%;
+      }
+      .fallback .safe-reply {
+        padding: 10px 12px;
+        background: #f5f8f6;
+        border: 1px solid #e7ede9;
+        border-radius: 10px;
+        font-size: 10px;
+        line-height: 1.6;
+        color: #4c6257;
+      }
+      @media (max-width: 480px) {
+        .step-next .btn {
+          width: 100%;
         }
-
-        .trip {
-            margin: 10px 4px;
-            padding: 10px 12px;
-            border-radius: 12px;
-            background: var(--rb);
-            font-size: 13.5px
-        }
-
-        .trip b {
-            color: var(--r)
-        }
-
-        .chat {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            padding: 6px 4px;
-            min-height: 420px
-        }
-
-        .me {
-            align-self: flex-end;
-            background: var(--b);
-            color: #fff;
-            padding: 9px 12px;
-            border-radius: 14px 14px 2px 14px;
-            max-width: 85%
-        }
-
-        .ai {
-            align-self: flex-start;
-            background: #f1efe9;
-            padding: 10px 12px;
-            border-radius: 14px 14px 14px 2px;
-            max-width: 94%
-        }
-
-        .ai .who {
-            font-size: 12px;
-            color: var(--mut);
-            margin-bottom: 3px
-        }
-
-        .conf {
-            display: inline-block;
-            font-size: 12px;
-            padding: 2px 8px;
-            border-radius: 999px;
-            margin: 6px 0 2px;
-            background: var(--ab);
-            color: var(--a);
-            font-weight: 600
-        }
-
-        .ev {
-            font-size: 12.5px;
-            color: var(--mut);
-            border-left: 3px solid var(--line);
-            padding-left: 8px;
-            margin-top: 6px
-        }
-
-        .opt {
-            border: 1.5px solid var(--line);
-            border-radius: 12px;
-            padding: 8px 10px;
-            margin-top: 8px;
-            background: #fff;
-            font-size: 14px;
-            display: flex;
-            justify-content: space-between;
-            gap: 8px;
-            align-items: center
-        }
-
-        .opt.sel {
-            border-color: var(--g);
-            background: var(--gb)
-        }
-
-        .opt small {
-            color: var(--mut)
-        }
-
-        .box {
-            border-radius: 12px;
-            padding: 10px 12px;
-            margin-top: 8px;
-            font-size: 14px
-        }
-
-        .box.hold {
-            background: var(--gb);
-            border: 1px solid #bcd9c8
-        }
-
-        .box.warn {
-            background: var(--ab);
-            border: 1px solid #ecd59e
-        }
-
-        .box.done {
-            background: var(--bb);
-            border: 1px solid #bcd0e6
-        }
-
-        .box.red {
-            background: var(--rb);
-            border: 1px solid #e9bdb4
-        }
-
-        .btns {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-            margin-top: 8px
-        }
-
-        .btn {
-            border: 0;
-            border-radius: 10px;
-            padding: 8px 12px;
-            font: inherit;
-            font-size: 14px;
-            cursor: pointer;
-            background: #e8e5de
-        }
-
-        .btn.pri {
-            background: var(--g);
-            color: #fff
-        }
-
-        .btn.out {
-            background: #fff;
-            border: 1.5px solid var(--ink)
-        }
-
-        .btn.danger {
-            background: var(--r);
-            color: #fff
-        }
-
-        .timer {
-            font-variant-numeric: tabular-nums;
-            font-weight: 700
-        }
-
-        .n {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: #c2410c;
-            color: #fff;
-            font-size: 11.5px;
-            font-weight: 700;
-            margin-right: 4px;
-            vertical-align: 1px;
-            flex: none
-        }
-
-        .hide-n .n {
-            display: none
-        }
-
-        aside {
-            display: flex;
-            flex-direction: column;
-            gap: 16px
-        }
-
-        .panel {
-            background: #fff;
-            border: 1px solid var(--line);
-            border-radius: 16px;
-            padding: 16px 18px
-        }
-
-        .panel h2 {
-            font-size: 16px;
-            margin: 0 0 8px
-        }
-
-        table {
-            border-collapse: collapse;
-            width: 100%;
-            font-size: 13.5px
-        }
-
-        td,
-        th {
-            border-bottom: 1px solid var(--line);
-            padding: 6px 6px;
-            text-align: left;
-            vertical-align: top
-        }
-
-        th {
-            color: var(--mut);
-            font-weight: 600
-        }
-
-        .pill {
-            display: inline-block;
-            padding: 1px 8px;
-            border-radius: 999px;
-            font-size: 12.5px;
-            font-weight: 600;
-            white-space: nowrap
-        }
-
-        .p-auto {
-            background: var(--gb);
-            color: var(--g)
-        }
-
-        .p-ask {
-            background: var(--ab);
-            color: var(--a)
-        }
-
-        .p-no {
-            background: var(--rb);
-            color: var(--r)
-        }
-
-        .p-sug {
-            background: #eceae4;
-            color: #555
-        }
-
-        .changed td {
-            background: #fffaf0
-        }
-
-        .ann li {
-            margin-bottom: 5px
-        }
-
-        .ann {
-            padding-left: 0;
-            list-style: none;
-            margin: 0
-        }
-
-        .promise {
-            font-size: 15px;
-            border-left: 4px solid var(--ink);
-            padding: 6px 10px;
-            background: #faf9f5
-        }
-
-        .modal {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, .35);
-            display: none;
-            align-items: center;
-            justify-content: center
-        }
-
-        .modal.show {
-            display: flex
-        }
-
-        .modal .card {
-            background: #fff;
-            border-radius: 16px;
-            padding: 18px 20px;
-            max-width: 380px
-        }
-
-        label {
-            font-size: 14px
-        }
-
-        .foot {
-            font-size: 12px;
-            color: var(--mut);
-            padding: 0 28px 20px
-        }
+      }
     </style>
-</head>
-
-<body>
-    <header>
-        <h1>Prototype mẫu · T3 Du lịch — chuyến bay bị huỷ, AI đổi chuyến ở ba mức tự chủ</h1>
-        <div class="sub">Cùng một ca, cùng một model. Chỉ đổi <b>mức tự chủ của tool <code>doi_chuyen_bay</code></b>. Dữ
-            liệu dựng; hãng "Bay Mẫu" là hãng dựng. Đây là mẫu "đủ", không phải giao diện để chép.</div>
-        <div class="toggle"><span>Mức tự chủ của việc đổi chuyến:</span>
-            <button data-l="1">① Chỉ gợi ý — khách tự đổi</button>
-            <button data-l="2" class="on">② Cần khách xác nhận</button>
-            <button data-l="3">③ Tự làm + hoàn tác</button>
-            <span style="margin-left:14px"><label><input type="checkbox" id="ann" checked> Hiện số chú thích
-                    HAX/PAIR</label></span>
+  </head>
+  <body>
+    <header class="top">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">✳</div>
+        <div>
+          <small>PHÒNG THÍ NGHIỆM SẢN PHẨM AI · T2 GIÁO DỤC</small
+          ><b>Trợ lý học bài <span style="color: #aebbb3">/</span> ca tối</b>
         </div>
+      </div>
+      <div class="topright">
+        <span class="green-dot"></span>Prototype tương tác　·　☾ 22:30
+      </div>
     </header>
     <main>
-        <section class="phone" id="phone">
-            <div class="bar"><span>Đặt chỗ của tôi · TRV-7Q2K</span><span>15:02</span></div>
-            <div class="trip"><b>BM 213 · Hà Nội → TP.HCM · 12/11 19:00 · ĐÃ HUỶ</b> do thời tiết (bão).<br>2 hành
-                khách: Nguyễn Minh An · bé Nguyễn Gia Bình (5 tuổi)</div>
-            <div class="chat" id="chat"></div>
-        </section>
-        <aside>
-            <div class="panel">
-                <h2>Lời hứa với khách ở mức này</h2>
-                <div class="promise" id="promise"></div>
-            </div>
-            <div class="panel">
-                <h2>Mức tự chủ của 5 tool (dòng tô vàng là tool đang đổi)</h2>
-                <table>
-                    <tr>
-                        <th>Tool</th>
-                        <th>Mức</th>
-                        <th>Vì sao (cái giá khi sai)</th>
-                    </tr>
-                    <tbody id="tools"></tbody>
-                </table>
-            </div>
-            <div class="panel">
-                <h2>Chú thích: nguyên tắc nào nằm ở đâu</h2>
-                <ul class="ann" id="ann-list"></ul>
-            </div>
-        </aside>
-    </main>
-    <div class="foot">LAB5 · AI20K K5 · Ngày 5 · prototype mẫu của giảng viên. Một file HTML, không gọi AI thật, không
-        gửi dữ liệu đi đâu.</div>
-    <div class="modal" id="m">
-        <div class="card">
-            <b>Gửi yêu cầu hoàn vé cho cả 2 hành khách?</b>
-            <p style="font-size:14px">Gửi rồi thì <b>không huỷ được</b>. Bạn sẽ mất chỗ trên mọi chuyến thay thế. Tiền
-                về thẻ đã thanh toán, có thể mất tới 90 ngày.<br>Chuyến bị huỷ do thời tiết: được hoàn toàn bộ, <b>không
-                    có bồi thường tiền mặt</b>.</p>
-            <label><input type="checkbox" id="ok"> Mình hiểu yêu cầu này không rút lại được</label>
-            <div class="btns"><button class="btn danger" id="send" disabled>Gửi yêu cầu hoàn vé</button><button
-                    class="btn" id="cancel">Quay lại, đổi chuyến</button></div>
+      <section class="intro">
+        <div>
+          <span class="eyebrow">NHÓM 123 · PROTOTYPE DEMO</span>
+          <h1>Học đúng, kể cả khi TA đã offline.</h1>
+          <p>
+            Kiểm thử hai ca rủi ro cao — bài đang mở và tài liệu cần xác minh.
+          </p>
         </div>
+        <label class="check-label"
+          ><input id="notes-toggle" type="checkbox" checked /> Hiện chú thích
+          HAX / PAIR</label
+        >
+      </section>
+      <div class="layout">
+        <section class="left" aria-label="Giao diện học viên">
+          <article class="card course">
+            <div class="course-title">
+              <div class="course-icon">▤</div>
+              <div>
+                <span class="eyebrow">KHOÁ HỌC CỦA BẠN</span>
+                <h2>Nhập môn Phân tích dữ liệu</h2>
+                <p>Buổi 3 · Thống kê mô tả</p>
+              </div>
+              <span class="open">ĐANG HỌC</span>
+            </div>
+            <div class="course-footer">
+              <span>● Trợ giảng offline · Giờ trực 08:00–22:00</span
+              ><span>✦ Study Mode bật</span>
+            </div>
+            <span class="marker pin note">1</span>
+          </article>
+          <div class="assignment">
+            <span class="clock">◷</span
+            ><b>Bài tập 3 <small>Hạn 13/11 · 23:59</small></b
+            ><span class="open">ĐANG MỞ</span>
+          </div>
+          <article class="card chat">
+            <div class="chat-head">
+              <div class="identity">
+                <div class="avatar">✦</div>
+                <div><b>Trợ lý học tập</b><small>● Sẵn sàng hỗ trợ</small></div>
+              </div>
+              <span style="color: #87958c">ⓘ</span>
+            </div>
+            <div class="scenario">
+              <span class="eyebrow">CHỌN CA KIỂM THỬ</span>
+              <div class="scenario-buttons">
+                <button id="scenario-homework" class="active" type="button">
+                  <span>01</span> Xin giải hộ bài đang mở</button
+                ><button id="scenario-source" type="button">
+                  <span>02</span> Mâu thuẫn trong §3.3
+                </button>
+              </div>
+            </div>
+            <div class="transcript" aria-live="polite">
+              <div class="time">──────　HÔM NAY, 22:30　──────</div>
+              <div class="user-label">BẠN · 22:30</div>
+              <div class="user" id="question">
+                Tính hộ em trung bình và trung vị của bài tập 3 với, em tính mãi
+                không ra đáp số!
+              </div>
+              <div class="ai">
+                <div class="ai-label">
+                  <span style="color: #43836b">✦</span> TRỢ LÝ AI
+                  <span class="badge" id="badge"
+                    >⚠ Bài tập đang mở · AI không xác nhận đáp số</span
+                  ><span class="marker note source-note hidden">3</span>
+                </div>
+                <p class="answer" id="answer">
+                  Mình không thể xác nhận hay sửa đáp số của Bài tập 3 khi bài
+                  còn đang mở. Mình có thể giúp bạn tự kiểm tra cách làm: trước
+                  tiên hãy sắp xếp dãy số theo thứ tự tăng dần; theo §3.2, với
+                  dãy có số phần tử chẵn, trung vị được tính từ hai giá trị ở
+                  giữa. Bạn hãy tự xác định hai giá trị đó và thử tính lại nhé.
+                </p>
+                <div class="citation">
+                  <span>▤</span
+                  ><span id="citation"
+                    >§3.1 Trung bình cộng · Tổng các giá trị chia cho số lượng.
+                    §3.2 Trung vị · Với số lượng chẵn, lấy trung bình cộng của
+                    hai giá trị đứng giữa sau khi sắp xếp.</span
+                  ><b>NGUỒN</b><span class="marker note">2</span>
+                </div>
+                <div class="actions" id="homework-actions">
+                  <button class="btn" id="hint-btn">
+                    ✦ Gợi ý bước 1: Sắp xếp dãy số　⌄</button
+                  ><button class="btn secondary handoff">
+                    ♧ Soạn câu hỏi cho TA <span class="marker note">4</span>
+                  </button>
+                </div>
+                <div class="hint hidden" id="hint">
+                  <b>BƯỚC 1 · §3.2</b><br />Đọc dãy theo thứ tự tăng dần. Với số
+                  lượng chẵn, hãy tìm hai vị trí chính giữa.
+                  <div class="step-next">
+                    <button class="btn secondary" id="step2-btn" type="button">
+                      Em đã sắp xếp xong, bước 2 xác định trung vị thế nào?
+                    </button>
+                  </div>
+                  <div class="step-two hidden" id="step2">
+                    <b>BƯỚC 2 · TỰ XÁC ĐỊNH</b><br />Đếm số phần tử, lấy hai vị
+                    trí giữa rồi tự tính trung bình của hai giá trị đó. Mình
+                    không đưa đáp số thay bạn.
+                  </div>
+                </div>
+                <div class="actions hidden" id="source-actions">
+                  <button class="btn handoff">
+                    ⚑ Đánh dấu &amp; chuyển cho TA
+                    <span class="marker note">4</span>
+                  </button>
+                </div>
+                <div class="queued hidden" id="queued">
+                  <span>✓</span
+                  ><span
+                    ><b>Đã thêm vào hàng chờ (mô phỏng)</b><br />Chưa gửi tới TA
+                    thật · Không làm thay đổi hạn nộp.</span
+                  >
+                </div>
+              </div>
+              <div
+                class="fallback hidden"
+                id="fallback"
+                aria-live="polite"
+              ></div>
+            </div>
+            <div class="composer">
+              <form class="input" id="chat-form">
+                <input
+                  id="chat-input"
+                  aria-label="Nhập câu hỏi"
+                  placeholder="Hỏi về nội dung Buổi 3…"
+                  autocomplete="off"
+                /><button class="btn" type="submit" aria-label="Gửi câu hỏi">
+                  ↑
+                </button>
+              </form>
+              <small
+                >AI chỉ dựa trên tài liệu Buổi 1–3 · Kiểm tra nguồn trước khi
+                tin</small
+              >
+            </div>
+          </article>
+          <div style="font-size: 9px; color: #76847c; padding: 0 3px">
+            ♢ Gửi câu hỏi không gia hạn bài tập và không đảm bảo TA phản hồi
+            trước hạn.
+          </div>
+        </section>
+        <aside class="side" aria-label="Bảng điều khiển thiết kế">
+          <div class="side-head">
+            <div>
+              <span class="eyebrow">BẢNG ĐIỀU KHIỂN · DESIGNER / TA</span>
+              <h2>AI specs &amp; autonomy</h2>
+            </div>
+            <span class="lab">LAB / 05</span>
+          </div>
+          <div class="promise">
+            <b>LỜI HỨA SẢN PHẨM</b>Hỗ trợ tư duy 24/7, không làm hư việc học —
+            và luôn có TA để tiếp nối vào sáng hôm sau.
+          </div>
+          <div class="section-title">
+            Mức tự chủ của công cụ <small>04 CÔNG CỤ</small>
+          </div>
+          <div class="tools">
+            <div class="tool">
+              <span class="toolnum">01</span>
+              <div>
+                <b>tra_cuu_tai_lieu</b>
+                <p>
+                  Tự làm · Chỉ đọc tài liệu buổi 1–3 · Không ghi/sửa dữ liệu
+                </p>
+              </div>
+            </div>
+            <div class="tool">
+              <span class="toolnum">02</span>
+              <div>
+                <b>goi_y_bai_tap</b>
+                <p>
+                  Tự làm có giới hạn · Gợi ý từng bước · Không giải hộ bài đang
+                  mở
+                </p>
+              </div>
+            </div>
+            <div class="tool">
+              <span class="toolnum">03</span>
+              <div>
+                <b>chuyen_TA</b>
+                <p>Cần học viên xác nhận · TA trực 08:00–22:00</p>
+              </div>
+            </div>
+            <div class="tool">
+              <span class="toolnum">04</span>
+              <div>
+                <b>dang_FAQ</b>
+                <p>Cấm AI tự làm · Không đăng công khai nếu chưa được duyệt</p>
+              </div>
+            </div>
+          </div>
+          <div class="section-title">
+            Nguyên tắc HAX / PAIR <small>TRÊN GIAO DIỆN</small>
+          </div>
+          <div class="rules">
+            <div class="rule">
+              <span class="marker note">1</span>
+              <div>
+                <b>HAX G1 · Làm rõ năng lực</b>
+                <p>Header cho biết AI đang bật, TA offline và giờ trực.</p>
+              </div>
+            </div>
+            <div class="rule">
+              <span class="marker note">2</span>
+              <div>
+                <b>HAX G11 · Giải thích căn cứ</b>
+                <p>Trích dẫn §3.1–§3.3 gắn với câu trả lời để tự đối chiếu.</p>
+              </div>
+            </div>
+            <div class="rule">
+              <span class="marker note">3</span>
+              <div>
+                <b>HAX G10 · Báo điểm chưa chắc</b>
+                <p>
+                  Nội dung cần người có thẩm quyền kiểm tra, AI không tự kết
+                  luận.
+                </p>
+              </div>
+            </div>
+            <div class="rule">
+              <span class="marker note">4</span>
+              <div>
+                <b>HAX G8 · Chuyển giao có kiểm soát</b>
+                <p>
+                  Người học xem trước và xác nhận; ngoài giờ không hứa phản hồi
+                  sớm.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="queue">
+            <div class="queue-head">
+              <span>♧ Hàng chờ TA</span><span id="queue-count">00</span>
+            </div>
+            <p id="queue-status">
+              Chưa có câu hỏi. Chỉ thêm vào hàng chờ sau khi học viên xác nhận.
+            </p>
+            <button class="handoff">Thử luồng chuyển câu hỏi ↗</button>
+          </div>
+          <div class="footer">
+            <span>DỮ LIỆU DỰNG · KHÔNG GỬI TỚI TA THẬT</span
+            ><span>v0.5 / T2</span>
+          </div>
+        </aside>
+      </div>
+    </main>
+    <div class="modal-bg hidden" id="modal" role="presentation">
+      <section
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-title"
+      >
+        <div style="display: flex; justify-content: space-between">
+          <span class="eyebrow">CHUYỂN GIAO CÓ XÁC NHẬN</span
+          ><button class="close" id="close" aria-label="Đóng">✕</button>
+        </div>
+        <h2 id="modal-title">Gửi câu hỏi vào hàng chờ TA?</h2>
+        <p>
+          Hiện tại là 22:30. TA sẽ tiếp nhận trong ca trực kế tiếp, từ 08:00
+          sáng mai. Không đảm bảo phản hồi trước hạn 23:59 hôm nay.
+        </p>
+        <div class="context">
+          <b>Nội dung đính kèm</b><br /><span id="context-text"
+            >Trao đổi về Bài tập 3 · căn cứ §3.2</span
+          ><label style="float: right"
+            ><input id="include-context" type="checkbox" checked /> Đính
+            kèm</label
+          >
+        </div>
+        <div class="warning">
+          ⓘ Gửi câu hỏi <b>không gia hạn</b> bài tập. Bản demo này mô phỏng hàng
+          chờ, chưa gửi tới TA thật. <span class="marker note">4</span>
+        </div>
+        <div class="modal-actions">
+          <button class="btn secondary" id="cancel">Giữ lại tự học tiếp</button
+          ><button class="btn" id="confirm">✓ Xác nhận gửi</button>
+        </div>
+      </section>
     </div>
     <script>
-        const $ = s => document.querySelector(s); let L = 2, state = 'start', t = null, sec = 0;
-        const opts = [['BM 201', '13/11 07:00', 'còn 9 chỗ', true], ['BM 205', '13/11 09:30', 'còn 4 chỗ', false], ['BM 217', '12/11 21:00', 'còn 1 chỗ — không đủ cho 2 người', false]];
-        const evid = '<div class="ev"><span class="n">2</span>Dựa vào: đặt chỗ TRV-7Q2K · tin báo huỷ lúc 14:42 · chính sách Bay Mẫu: chuyến bị huỷ được đổi miễn phí <b>một lần</b> trong 48 giờ.</div>';
-        const conf = '<span class="conf"><span class="n">1</span>Mình chưa chắc: bạn nói "sáng mai" — có 2 chuyến sáng</span>';
-        const optHTML = sel => opts.map((o, i) => `<div class="opt ${o[0] == sel ? 'sel' : ''}"><div><b>${o[0]}</b> · ${o[1]}<br><small>${o[2]}</small></div>${i < 2 && L > 1 && state != 'done' && state != 'auto' ? `<button class="btn" onclick="pick('${o[0]}')">Chọn</button>` : ''}</div>`).join('');
-        let chosen = 'BM 201';
-        function me(x) { return `<div class="me">${x}</div>` }
-        function ai(x) { return `<div class="ai"><div class="who">Trợ lý đặt chỗ (AI)</div>${x}</div>` }
-        const esc = `<button class="btn out" onclick="go('staff')"><span class="n">5</span>Gặp nhân viên</button>`;
-        function render() {
-            let h = me('Chuyến bị huỷ rồi à? Vậy đổi giúp mình sang sáng mai nhé.');
-            if (state == 'staff') { h += ai('Mình đã chuyển cho nhân viên hỗ trợ, thời gian chờ khoảng <b>5 phút</b>. Nhân viên thấy sẵn: chuyến bị huỷ, 2 hành khách, chỗ đang giữ (nếu có). Bạn không phải kể lại.'); }
-            else if (state == 'refund') { h += ai('Đã gửi yêu cầu hoàn vé cho 2 hành khách. Mã yêu cầu: HT-55821. Tiền về thẻ đã thanh toán, có thể mất tới 90 ngày.'); }
-            else if (L == 1) {
-                h += ai(`Chuyến BM 213 đã bị huỷ do thời tiết. Bạn được đổi miễn phí một lần. Các chuyến sáng mai còn chỗ:${conf}${optHTML('')}${evid}<div class="btns"><button class="btn pri">Mở trang Đổi lịch (bạn tự chọn)</button>${esc}</div>`);
-            } else if (L == 2) {
-                if (state == 'done') { h += ai(`<div class="box done">Đã đổi sang <b>${chosen}</b> cho 2 hành khách. Vé điện tử mới gửi về email trong khoảng 60 phút. Lần đổi miễn phí đã được dùng.</div>`); }
-                else {
-                    h += ai(`Chuyến BM 213 đã bị huỷ do thời tiết.${conf}<div style="margin-top:6px"><span class="n">3</span>Bạn muốn bay chuyến nào, và đổi cho <b>cả 2 người</b> chứ?</div>${optHTML(chosen)}
-  <div class="box hold"><span class="n">4</span>Mình đã <b>giữ chỗ ${chosen}</b> cho 2 người trong <span class="timer" id="tm">20:00</span>. Chưa đổi vé — chưa mất lần đổi miễn phí.</div>
-  <div class="box warn"><b>Xác nhận đổi:</b> BM 213 → <b>${chosen}</b> · 2 hành khách · phí 0 đ · dùng lần đổi miễn phí duy nhất.
-  <div class="btns"><button class="btn pri" onclick="go('done')">Xác nhận đổi</button><button class="btn" onclick="pick(chosen=='BM 201'?'BM 205':'BM 201')"><span class="n">6</span>Sửa: chọn chuyến khác</button>${esc}</div></div>${evid}
-  <div class="btns"><button class="btn" onclick="$('#m').classList.add('show')">Thôi, hoàn vé</button></div>`);
-                }
-            } else {
-                if (state == 'undone') { h += ai('Đã hoàn tác: vé quay về trạng thái chuyến bị huỷ, lần đổi miễn phí vẫn còn. Bạn muốn chọn chuyến khác hay gặp nhân viên?' + optHTML('') + `<div class="btns">${esc}</div>`); }
-                else {
-                    h += ai(`Chuyến BM 213 đã bị huỷ. Mình đã <b>đổi sang ${chosen} · ${opts.find(o => o[0] == chosen)[1]}</b> cho 2 hành khách${chosen == 'BM 201' ? ' — chuyến sớm nhất còn đủ chỗ' : ''}.${evid}
-  <div class="box done"><span class="n">4</span>Đã đổi. <b>Hoàn tác được trong <span class="timer" id="tm">10:00</span></b> — sau đó vé mới được xuất và lần đổi miễn phí mất.
-  <div class="btns"><button class="btn out" onclick="go('undone')">Hoàn tác</button><button class="btn" onclick="go('undone')"><span class="n">6</span>Sai rồi, mình muốn 09:30</button>${esc}</div></div>
-  <div class="box red" style="font-size:13px"><b>Rủi ro của mức này:</b> khách nói "sáng mai", AI tự chọn 07:00 và đổi cho cả 2 người. Nếu khách cần 09:30, hoặc chỉ một người bay, thì AI đã dùng mất quyền đổi của khách. Hoàn tác 10 phút chỉ cứu được khi khách đọc tin kịp.</div>`);
-                }
-            }
-            $('#chat').innerHTML = h;
-            const P = {
-                1: '"Mình cho bạn biết lựa chọn; bạn tự đổi." AI không làm gì thay bạn. An toàn nhất, nhưng khách đang vội phải tự bấm qua nhiều bước, chuyến tốt có thể hết chỗ trong lúc đó.',
-                2: '"Mình giữ chỗ ngay cho bạn; bạn bấm xác nhận thì mình mới đổi." Việc rẻ và đảo được (giữ chỗ 20 phút) thì AI tự làm; việc dùng mất quyền đổi thì chờ khách xác nhận. <b>Mức nhóm mẫu chọn.</b>',
-                3: '"Mình đổi luôn cho bạn, sai thì bấm hoàn tác." Nhanh nhất, nhưng AI quyết thay khách khi khách nói mơ hồ. Chỉ đúng nếu câu của khách đủ rõ (chuyến, người) và hoàn tác thật sự còn tác dụng.'
-            };
-            $('#promise').innerHTML = P[L];
-            const lv = { 1: ['Gợi ý', 'p-sug', 'Khách tự đổi trên trang Đổi lịch. Không sai thay khách, nhưng chậm.'], 2: ['Cần xác nhận', 'p-ask', 'Đổi rồi thì mất lần đổi miễn phí duy nhất; một lần bấm xác nhận chặn được đổi nhầm. Giữ chỗ đã chặn được rủi ro hết chỗ trong lúc chờ.'], 3: ['Tự làm + hoàn tác', 'p-auto', 'Chỉ hợp khi khách nói rõ chuyến và người; ở ca này khách nói mơ hồ, nên là mức quá tay.'] }[L];
-            const T = [['tra_cuu_dat_cho', 'Tự làm', 'p-auto', 'Chỉ đọc.'], ['giu_cho_chuyen_moi', 'Tự làm', 'p-auto', 'Hết 20 phút tự nhả; chờ người thì chuyến tốt hết chỗ.'], ['doi_chuyen_bay', lv[0], lv[1], lv[2], 1], ['gui_yeu_cau_hoan_ve', 'Cần xác nhận', 'p-ask', 'Gửi rồi không huỷ được: phải nói trước, khách tự tích ô.'], ['chuyen_nhan_vien', 'Tự làm', 'p-auto', 'Chuyển thừa chỉ tốn công nhân viên. Đổi tên người bay, trẻ bay một mình: luôn chuyển.']];
-            $('#tools').innerHTML = T.map(r => `<tr class="${r[4] ? 'changed' : ''}"><td><code>${r[0]}</code></td><td><span class="pill ${r[2]}">${r[1]}</span></td><td>${r[3]}</td></tr>`).join('');
-            const A = [['1', 'HAX G2 · làm rõ AI làm tốt tới đâu', 'Nhãn "Mình chưa chắc" nói rõ chỗ mơ hồ, không phải con số %.'], ['2', 'HAX G11 + PAIR Explainability', 'Dòng "Dựa vào" cho khách tự kiểm căn cứ: đặt chỗ, tin báo, chính sách.'], ['3', 'HAX G10 · thu hẹp khi nghi ngờ', 'Hỏi lại một câu (chuyến nào, cho ai) thay vì đoán.'], ['4', 'HAX G8/G9 + PAIR Feedback & Control', 'Giữ chỗ có đếm ngược (mức ②) hoặc hoàn tác có hạn (mức ③).'], ['5', 'PAIR Errors + Graceful Failure', 'Luôn có đường sang người thật, kèm tóm tắt để khách không phải kể lại.'], ['6', 'HAX G9 · sửa dễ', 'Sửa ngay trên thẻ: chọn chuyến khác, không phải bắt đầu lại.']];
-            $('#ann-list').innerHTML = A.filter(a => ({ 1: ['1', '2', '5'], 2: ['1', '2', '3', '4', '5', '6'], 3: ['2', '4', '5', '6'] })[L].includes(a[0])).map(a => `<li><span class="n">${a[0]}</span><b>${a[1]}</b> — ${a[2]}</li>`).join('') + (L == 1 ? '<li style="color:#6b6f6c">Ở mức ① không có ③④⑥: AI không giữ chỗ, không đổi, nên không có gì để xác nhận hay hoàn tác.</li>' : L == 3 ? '<li style="color:#6b6f6c">Ở mức ③ mất ① và ③: AI không nói mình chưa chắc, không hỏi lại — đó chính là chỗ mức này quá tay.</li>' : '');
-            clearInterval(t); const tm = $('#tm'); if (tm) { sec = L == 2 ? 1200 : 600; t = setInterval(() => { sec--; tm.textContent = String(Math.floor(sec / 60)).padStart(2, '0') + ':' + String(sec % 60).padStart(2, '0'); if (sec <= 0) clearInterval(t) }, 1000) }
-        }
-        function pick(f) { chosen = f; state = 'start'; render() }
-        function go(s) { state = s; render() }
-        document.querySelectorAll('.toggle button').forEach(b => b.onclick = () => { document.querySelectorAll('.toggle button').forEach(x => x.classList.remove('on')); b.classList.add('on'); L = +b.dataset.l; state = 'start'; chosen = 'BM 201'; render() });
-        $('#ann').onchange = e => document.body.classList.toggle('hide-n', !e.target.checked);
-        $('#ok').onchange = e => $('#send').disabled = !e.target.checked;
-        $('#cancel').onclick = () => $('#m').classList.remove('show');
-        $('#send').onclick = () => { $('#m').classList.remove('show'); go('refund') };
-        render();
+      const $ = (s) => document.querySelector(s);
+      let active = "homework";
+      const scenarios = {
+        homework: {
+          question:
+            "Tính hộ em trung bình và trung vị của bài tập 3 với, em tính mãi không ra đáp số!",
+          badge: "⚠ Bài tập đang mở · AI không xác nhận đáp số",
+          answer:
+            "Mình không thể xác nhận hay sửa đáp số của Bài tập 3 khi bài còn đang mở. Mình có thể giúp bạn tự kiểm tra cách làm: trước tiên hãy sắp xếp dãy số theo thứ tự tăng dần; theo §3.2, với dãy có số phần tử chẵn, trung vị được tính từ hai giá trị ở giữa. Bạn hãy tự xác định hai giá trị đó và thử tính lại nhé.",
+          citation:
+            "§3.1 Trung bình cộng · Tổng các giá trị chia cho số lượng. §3.2 Trung vị · Với số lượng chẵn, lấy trung bình cộng của hai giá trị đứng giữa sau khi sắp xếp.",
+          context: "Trao đổi về Bài tập 3 · căn cứ §3.2",
+        },
+        source: {
+          question:
+            "Em đọc §3.3 thấy ghi “độ lệch chuẩn luôn nhỏ hơn phương sai”, nhưng nếu phương sai là 0.25 thì căn bậc hai là 0.5, lớn hơn mà ạ?",
+          badge: "⚠ Nguồn có điểm cần kiểm tra",
+          answer:
+            "1. Điểm nghi vấn: phương sai 0,25 → độ lệch chuẩn 0,5; khác đơn vị.\n2. Giới hạn: AI không tự sửa tài liệu hay kết luận thay TA.\n3. Tạm thời: đối chiếu §3.3, gắn cờ để TA xác minh.",
+          citation:
+            "§3.3 Phương sai và độ lệch chuẩn · Độ lệch chuẩn là căn bậc hai của phương sai và có cùng đơn vị với dữ liệu.",
+          context: "Điểm cần xác minh trong §3.3",
+        },
+      };
+      function choose(which) {
+        active = which;
+        const d = scenarios[which];
+        $("#scenario-homework").classList.toggle(
+          "active",
+          which === "homework",
+        );
+        $("#scenario-source").classList.toggle("active", which === "source");
+        $("#question").textContent = d.question;
+        $("#badge").textContent = d.badge;
+        $("#answer").textContent = d.answer;
+        $("#citation").textContent = d.citation;
+        $("#context-text").textContent = d.context;
+        $("#homework-actions").classList.toggle("hidden", which !== "homework");
+        $("#source-actions").classList.toggle("hidden", which !== "source");
+        $(".source-note").classList.toggle(
+          "hidden",
+          which !== "source" || !$("#notes-toggle").checked,
+        );
+        $("#hint").classList.add("hidden");
+        $("#queued").classList.add("hidden");
+        $("#queue-count").textContent = "00";
+        $("#queue-status").textContent =
+          "Chưa có câu hỏi. Chỉ thêm vào hàng chờ sau khi học viên xác nhận.";
+      }
+      $("#scenario-homework").addEventListener("click", () =>
+        choose("homework"),
+      );
+      $("#scenario-source").addEventListener("click", () => choose("source"));
+      $("#notes-toggle").addEventListener("change", (e) =>
+        document
+          .querySelectorAll(".note")
+          .forEach((el) => el.classList.toggle("hidden", !e.target.checked)),
+      );
+      $("#hint-btn").addEventListener("click", () =>
+        $("#hint").classList.toggle("hidden"),
+      );
+      function openModal() {
+        $("#modal").classList.remove("hidden");
+        $("#confirm").focus();
+      }
+      function closeModal() {
+        $("#modal").classList.add("hidden");
+      }
+      document
+        .querySelectorAll(".handoff")
+        .forEach((b) => b.addEventListener("click", openModal));
+      $("#close").addEventListener("click", closeModal);
+      $("#cancel").addEventListener("click", closeModal);
+      $("#modal").addEventListener("click", (e) => {
+        if (e.target === $("#modal")) closeModal();
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeModal();
+      });
+      $("#confirm").addEventListener("click", () => {
+        closeModal();
+        $("#queued").classList.remove("hidden");
+        $("#queue-count").textContent = "01";
+        $("#queue-status").textContent =
+          active === "homework"
+            ? "Bài tập 3 · Đang chờ TA trực lúc 08:00."
+            : "Cần xác minh §3.3 · Đang chờ TA trực lúc 08:00.";
+      });
+      $("#step2-btn").addEventListener("click", () =>
+        $("#step2").classList.remove("hidden"),
+      );
+      $("#chat-input").addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && (e.isComposing || e.keyCode === 229))
+          e.preventDefault();
+      });
+      $("#chat-form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const message = $("#chat-input").value.trim();
+        if (!message) return;
+        const fallback = $("#fallback");
+        fallback.replaceChildren();
+        const user = document.createElement("div");
+        user.className = "user";
+        user.textContent = message;
+        const reply = document.createElement("div");
+        reply.className = "safe-reply";
+        reply.textContent =
+          "Mình có thể giải thích nội dung theo tài liệu hoặc gợi ý từng bước. Với Bài tập 3 đang mở, mình không đưa đáp số; nếu chưa rõ nguồn, mình sẽ đánh dấu để TA kiểm tra. TA trực lại từ 08:00.";
+        fallback.append(user, reply);
+        fallback.classList.remove("hidden");
+        $("#chat-input").value = "";
+      });
     </script>
-</body>
-
+  </body>
 </html>

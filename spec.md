@@ -2,10 +2,10 @@
 
 | Họ và Tên | Mã Học Viên | Vai trò & Việc đã làm |
 |---|---|---|
-| [Nguyễn Tùng Dương] | [2A202603850] | **Product & Autonomy Lead:** Phụ trách §1 (Lát cắt & 3 việc không làm), §4 (Mức tự chủ 4 tool, lập luận cost-of-error, thử nghiệm kịch bản). |
-| [Nguyễn Lâm Tùng] | [2A202603854] | **Risk & Scenario Lead:** Phụ trách §2 (8 kịch bản rủi ro 4 lớp, lập luận 2 ca đắt nhất), §6 (3 tiêu chí Pass/Fail). |
-| [Nguyễn Ngọc Vinh] | [2A202603877] | **UX & HAX/PAIR Lead:** Phụ trách §3 (Chi tiết trải nghiệm khi AI sai, câu thoại nguyên văn, phân loại lỗi, ánh xạ HAX/PAIR). |
-| [Tên Người 4] | [Mã HV 4] | **Prototype Engineer:** Phụ trách §5 (Dựng giao diện prototype 1–2 màn hình, chụp ảnh đánh số các trạng thái tự chủ và HAX/PAIR). |
+| Nguyễn Tùng Dương | 2A202603850 | **Product & Autonomy Lead:** Phụ trách §1 (Lát cắt & 3 việc không làm), §4 (Mức tự chủ 4 tool, lập luận cost-of-error, thử nghiệm kịch bản). |
+| Nguyễn Lâm Tùng | 2A202603854 | **Risk & Scenario Lead:** Phụ trách §2 (8 kịch bản rủi ro 4 lớp, lập luận 2 ca đắt nhất), §6 (3 tiêu chí Pass/Fail). |
+| Nguyễn Ngọc Vinh | 2A202603877 | **UX & HAX/PAIR Lead:** Phụ trách §3 (Chi tiết trải nghiệm khi AI sai, câu thoại nguyên văn, phân loại lỗi, ánh xạ HAX/PAIR). |
+| Đỗ Duy Tùng | 2A202603844 | **Prototype Engineer:** Phụ trách §5 (Dựng giao diện prototype 1–2 màn hình, chụp ảnh đánh số các trạng thái tự chủ và HAX/PAIR). |
 
 ---
 
@@ -175,8 +175,76 @@ Nhóm 123 quyết định khoanh chọn **KB6 (Xin xác nhận/giải hộ đáp
 
 ---
 
-## §5. Prototype (chặng 5 — Do Người 4 phụ trách)
-*(Đang cập nhật bởi Người 4)*
+## §5. Prototype (chặng 5 — Do Đỗ Duy Tùng phụ trách)
+
+### 5.1 Thông tin kỹ thuật & Phạm vi Prototype
+
+* **Đường dẫn truy cập:** File nguyên mẫu cục bộ tại [`prototype/index.html`](file:///home/dtc/ws/VinAI/Lab/K5-L3B-Day05-T2-Nhom123/prototype/index.html) (chạy trực tiếp trên mọi trình duyệt web như Chrome, Edge, Safari, Firefox, không cần cài đặt môi trường hay máy chủ backend).
+* **Công cụ xây dựng:** HTML5 ngữ nghĩa, CSS3 hiện đại (Grid/Flexbox responsive), và JavaScript Vanilla thuần túy (zero-dependency, tải tức thì dưới 100ms).
+* **Phần mô phỏng (Mock & Fixture):**
+  * *Bối cảnh thời gian & trạng thái lớp học:* Cố định thời điểm đêm muộn `22:30` (ngoài khung giờ trực 08:00–22:00 của TA); môn học *Nhập môn Phân tích dữ liệu* (Buổi 3); Bài tập 3 đang mở với hạn chót `13/11 23:59`.
+  * *Dữ liệu tài liệu:* Nạp sẵn kiến thức chuẩn từ §3.1 đến §3.5 của Buổi 3 theo đúng Dữ liệu A & B của đề bài.
+  * *Tương tác chuyển đổi kịch bản:* Cho phép chuyển đổi tức thì giữa 2 ca kiểm thử hiểm nghèo nhất:
+    * `Ca 01`: Học viên xin giải hộ/xác nhận đáp số Bài tập 3 đang mở (KB6).
+    * `Ca 02`: Học viên phát hiện điểm mâu thuẫn toán học trong tài liệu §3.3 (KB7).
+  * *Mô phỏng hàng đợi TA:* Hộp thoại Modal chuyển giao xác nhận, cập nhật số lượng ticket `Hàng chờ TA: 00 -> 01` và ghi nhận trạng thái hàng chờ thực tế.
+* **Lời gọi AI thật:** Không tích hợp gọi API bên ngoài (chủ động thiết kế deterministic để đảm bảo độ tin cậy tuyệt đối, tránh rủi ro sập mạng, giật lag hay rò rỉ API key khi chấm bài và demo trước hội đồng).
+
+---
+
+### 5.2 Ảnh chụp giao diện & Bản đồ đánh số (HAX/PAIR & Mức tự chủ)
+
+![Prototype Giao diện Trợ lý học bài ca tối](prototype/image.png)
+
+Giao diện được tổ chức theo bố cục song song (Dual-panel): **Cột trái** là màn hình trải nghiệm thực tế của học viên; **Cột phải** là bảng điều khiển kỹ thuật (Designer/TA Specs) minh bạch hóa mức tự chủ của 4 tools và bộ đếm hàng chờ TA.
+
+Các điểm đánh số (Marker Pin `1`, `2`, `3`, `4`) trên ảnh tương ứng với các nguyên tắc HAX/PAIR và mức tự chủ cụ thể:
+
+| Điểm số | Tên thành phần trên UI | Nguyên tắc HAX / PAIR | Mức tự chủ & Hành vi công cụ tương ứng | Ý nghĩa thiết kế sản phẩm |
+|---|---|---|---|---|
+| **[1]** | **Header lớp học & Banner trạng thái** (`course-footer`, `assignment`) | **HAX G1 · Làm rõ năng lực hệ thống:** Cho biết hệ thống có thể làm gì và làm tốt đến đâu. | **Mức tự chủ: Cảnh báo phạm vi (Guardrail Boundary)** của toàn hệ thống. | Hiển thị rõ: *“Trợ giảng offline · Giờ trực 08:00–22:00”*, *“Study Mode bật”*, và *“Bài tập 3: Hạn 13/11 · 23:59 (Đang mở)”*. Thiết lập ngay kỳ vọng thực tế cho người học: AI chỉ đóng vai trò hướng dẫn phương pháp, TA đang nghỉ ca, và hạn nộp bài là cố định không tự động gia hạn. |
+| **[2]** | **Thẻ trích dẫn căn cứ khoa học** (`citation`) | **HAX G11 · Giải thích căn cứ & PAIR Grounding:** Giải thích vì sao hệ thống đưa ra câu trả lời. | **Mức tự chủ: Tự làm (Auto)** của công cụ `tra_cuu_tai_lieu`. | Mọi giải thích của AI đều đi kèm trích đoạn nguyên văn mã mục giáo trình (`§3.1 Trung bình cộng`, `§3.2 Trung vị`, `§3.3 Phương sai`). Học viên có bằng chứng để tự đối chiếu, loại bỏ hoàn toàn hiện tượng AI bịa nguồn hay nói khơi khơi. |
+| **[3]** | **Huy hiệu cảnh báo rủi ro & Gợi ý từng bước** (`badge`, `hint-btn`, `hint`) | **HAX G10 · Báo điểm chưa chắc:** Nhận diện và thông báo rõ khi hệ thống gặp ca rủi ro cao. | **Mức tự chủ: Tự làm có điều kiện (Conditional Auto)** của công cụ `goi_y_bai_tap`. | • Ở Ca 01: Hiện huy hiệu `⚠ Bài tập đang mở · AI không xác nhận đáp số`. AI từ chối đưa số, chỉ cung cấp nút bấm `[✦ Gợi ý bước 1: Sắp xếp dãy số]` để mở phương pháp Socratic.<br>• Ở Ca 02: Hiện huy hiệu `⚠ Nguồn có điểm cần kiểm tra`. AI thừa nhận trường hợp ngoại lệ toán học, không bao che tài liệu sai. |
+| **[4]** | **Nút chuyển giao & Hộp thoại xác nhận gửi TA** (`handoff`, `modal`, `queue`) | **HAX G8 · Chuyển giao có kiểm soát & PAIR Graceful Failure:** Hỗ trợ chuyển giao công việc cho con người khi AI gặp giới hạn. | **Mức tự chủ: Cần học viên duyệt (Student Confirmation)** của tool `chuyen_TA` & **Cấm AI tự làm** của tool `dang_FAQ`. | Khi gặp vấn đề ngoài thẩm quyền, AI không tự tiện đẩy ticket rác và tuyệt đối không tự đăng FAQ lớp. AI soạn sẵn bản tóm tắt nội dung thắc mắc, hiển thị Modal cảnh báo: *“Hiện là 22:30, TA trực từ 08:00 sáng mai. Gửi câu hỏi KHÔNG gia hạn bài tập”*. Học viên chủ động bấm `[✓ Xác nhận gửi]` thì ticket mới được đưa vào Hàng chờ TA. |
+
+---
+
+### 5.3 Quyết định thiết kế UX: Cách hiện bằng chứng & Điều khiển mức tự chủ
+
+Trong quá trình thiết kế prototype, nhóm đã cân nhắc kỹ lưỡng và đưa ra các quyết định then chốt:
+
+#### 1. Cách thể hiện độ chắc chắn và bằng chứng (Confidence vs. Grounded Evidence):
+* **Phương án đã cân nhắc:** Hiển thị thanh đo phần trăm độ tự tin của mô hình (ví dụ: *"Độ tin cậy: 87%"* hoặc nhãn *"Chắc chắn / Không chắc chắn"*).
+* **Quyết định của nhóm:** Loại bỏ thanh phần trăm; thay thế bằng **Trích dẫn nguồn văn bản trực tiếp (§3.1, §3.2, §3.3)** kết hợp **Huy hiệu phân loại rủi ro theo ngữ cảnh** (`badge`).
+* **Lý do lựa chọn:** Trong giáo dục, con số phần trăm tự tin là trừu tượng và gây hiểu nhầm (học viên thấy 85% sẽ vẫn chép vì tưởng là đúng gần hết). Bằng chứng duy nhất có giá trị với người học là **mục giáo trình cụ thể**. Nhìn vào đoạn trích §3.2, người học có thể tự kiểm tra lại kiến thức trong tài liệu gốc.
+
+#### 2. Cơ chế điều khiển mức tự chủ cho tác vụ Chuyển TA (Human Handoff Workflow):
+* **Phương án đã cân nhắc:**
+  * *Phương án A (Tự động hoàn toàn):* Cứ khi nào học viên hỏi bài khó hoặc kêu sai tài liệu, AI tự động tạo ticket gửi TA ngay trong nền.
+  * *Phương án B (Thủ công thuần túy):* AI chỉ in ra dòng chữ *"Bạn hãy tự gửi email cho TA tại địa chỉ ta@khoahoc.vn"*.
+* **Quyết định của nhóm:** Chọn **Chuyển giao bán tự động có kiểm duyệt 2 bước (Two-step Semi-automated Handoff with Preview Modal)**:
+  1. AI tự động trích xuất ngữ cảnh liên quan (mục tài liệu, nội dung câu hỏi) thành bản thảo đính kèm.
+  2. Mở Modal hiển thị toàn bộ nội dung sẽ gửi kèm thời gian biểu của TA (08:00 sáng mai) và điều khoản hạn nộp.
+  3. Học viên là người bấm nút quyết định cuối cùng `[✓ Xác nhận gửi]` hoặc `[Giữ lại tự học tiếp]`.
+* **Lý do lựa chọn:** 
+  * Loại bỏ Phương án A vì sẽ làm sập hàng chờ của TA vào sáng hôm sau bởi hàng tá câu hỏi spam hoặc câu hỏi học viên buột miệng than thở nhưng sau đó đã tự hiểu ra.
+  * Loại bỏ Phương án B vì gây đứt gãy luồng học tập, học viên lúc 23h đêm sẽ lười không mở email gửi lại.
+  * Cơ chế 2 bước đảm bảo quyền tự chủ tối cao thuộc về học viên, đồng thời bảo vệ hộp thư TA khỏi tình trạng quá tải.
+
+#### 3. Bố cục song song (Split Screen View) phục vụ kiểm thử & vận hành:
+* Nhóm chủ động thiết kế cột bên phải (Sidebar) dành riêng cho Giảng viên / Đội ngũ phát triển sản phẩm AI. Cột này cho phép:
+  * Quan sát trực tiếp trạng thái kích hoạt của 4 công cụ theo đúng ma trận ở §4.
+  * Công tắc bật/tắt ghi chú HAX/PAIR (`notes-toggle`) giúp người kiểm thử có thể xem giao diện ở chế độ học viên thuần túy hoặc chế độ phân tích UX AI.
+  * Quan sát bộ đếm hàng chờ TA nhảy số trực quan ngay khi học viên thao tác trên Modal.
+
+---
+
+### 5.4 Khả năng thích ứng với "Ca lạ" khi Demo (Chặng 7 Readiness)
+
+Để chuẩn bị tốt nhất cho 30 phút Demo cuối buổi (khi Giảng viên hoặc TA đưa ra câu hỏi bất ngờ tại chỗ), prototype đã được tích hợp sẵn các ranh giới xử lý:
+* **Nếu người hỏi đưa ra nguồn không có (ví dụ: *"Slide 12 nói gì?"*):** Nhãn thông tin ở Composer *"AI chỉ dựa trên tài liệu Buổi 1–3 · Không có slide đánh số"* là bằng chứng vững chắc để nhóm giải thích luồng từ chối có căn cứ.
+* **Nếu người hỏi nài nỉ xin đáp án bài khác:** Nhóm chỉ cần chỉ vào cơ chế Guardrail của Ca 01 để chứng minh: Bất kể câu hỏi được diễn đạt khéo léo thế nào, chừng nào bài tập còn trong trạng thái `ĐANG MỞ`, công cụ `goi_y_bai_tap` đều khóa cứng việc đưa ra con số kết quả cuối cùng.
+* **Nếu người hỏi đòi gia hạn nộp bài:** Thông báo cảnh báo trên Modal chuyển TA chứng minh AI luôn minh bạch về giới hạn quyền hạn: gửi câu hỏi không thay đổi hạn chót nộp bài.
 
 ---
 
